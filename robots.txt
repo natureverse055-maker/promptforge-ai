@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# After deployment, replace YOUR-SITE.pages.dev with your actual public hostname:
+Sitemap: https://YOUR-SITE.pages.dev/sitemap.xml

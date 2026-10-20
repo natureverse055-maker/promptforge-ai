@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create structured AI video prompts for text-to-video tools. Customize video style, duration, camera, audio, and format with our free prompt generator.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PromptForge AI — Free AI Video Prompt Generator">
+  <meta property="og:description" content="Turn a video idea into a structured prompt in seconds. Free, browser-based, and beginner-friendly.">
+  <meta property="og:site_name" content="PromptForge AI">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <meta name="theme-color" content="#10131f">
+  <title>PromptForge AI — Video Prompt Generator</title>
+  <style>
+    :root {
+      --bg: #0b1020; --panel: #131a2d; --panel2: #19223a; --text: #f4f6ff;
+      --muted: #aab4cc; --accent: #8b7cff; --accent2: #43d9bd; --border: #2b3652;
+      --danger: #ffb3b3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+      color: var(--text); background: radial-gradient(circle at 10% 0%, #22244a 0, var(--bg) 38%);
+      line-height: 1.55;
+    }
+    .wrap { width: min(1100px, 92%); margin: 0 auto; }
+    header { padding: 25px 0 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .nav { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+    .brand { font-weight: 850; letter-spacing: -.5px; font-size: 1.15rem; }
+    .brand span { color: var(--accent2); }
+    .pill { border:1px solid var(--border); color:var(--muted); padding:6px 11px; border-radius:99px; font-size:.78rem; }
+    .hero { padding: 42px 0 28px; text-align:center; }
+    .eyebrow { color:var(--accent2); font-size:.78rem; font-weight:800; letter-spacing:1.7px; text-transform:uppercase; }
+    h1 { font-size:clamp(2rem, 5vw, 3.5rem); line-height:1.08; margin:12px auto; max-width:800px; letter-spacing:-1.6px; }
+    .hero p { color:var(--muted); max-width:680px; margin:0 auto; }
+    .layout { display:grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap:20px; padding:20px 0 40px; }
+    .card { background:rgba(19,26,45,.94); border:1px solid var(--border); border-radius:20px; padding:22px; box-shadow:0 18px 50px rgba(0,0,0,.16); }
+    h2 { font-size:1.08rem; margin:0 0 16px; }
+    label { display:block; font-size:.88rem; font-weight:650; margin:13px 0 7px; }
+    input, select, textarea {
+      width:100%; border:1px solid var(--border); border-radius:10px; padding:12px 13px;
+      color:var(--text); background:#0d1426; font:inherit; outline:none;
+    }
+    input:focus, select:focus, textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(139,124,255,.13); }
+    textarea { min-height:95px; resize:vertical; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .checks { display:flex; gap:15px; flex-wrap:wrap; margin-top:12px; color:var(--muted); font-size:.86rem; }
+    .checks label { display:flex; gap:7px; align-items:center; margin:0; font-weight:500; }
+    .checks input { width:auto; accent-color:var(--accent); }
+    button {
+      border:0; border-radius:11px; padding:12px 15px; font:inherit; font-weight:800; cursor:pointer;
+      transition:transform .15s ease, opacity .15s ease;
+    }
+    button:hover { transform:translateY(-1px); } button:active { transform:translateY(0); }
+    .primary { color:#111326; background:linear-gradient(110deg,var(--accent),#b5aaff); width:100%; margin-top:18px; }
+    .secondary { color:var(--text); background:var(--panel2); border:1px solid var(--border); }
+    .actions { display:flex; gap:9px; flex-wrap:wrap; margin-top:12px; }
+    .output { min-height:365px; white-space:pre-wrap; font: .9rem/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#e4e8ff; background:#0a1020; border:1px solid var(--border); border-radius:12px; padding:16px; overflow-wrap:anywhere; }
+    .hint { color:var(--muted); font-size:.82rem; margin-top:10px; }
+    .ad-slot { border:1px dashed #53617f; border-radius:12px; padding:16px; text-align:center; color:var(--muted); font-size:.8rem; margin:18px 0; }
+    .features { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:0 0 40px; }
+    .feature { background:rgba(19,26,45,.7); border:1px solid var(--border); border-radius:14px; padding:16px; }
+    .feature b { display:block; margin-bottom:5px; } .feature span { color:var(--muted); font-size:.84rem; }
+    footer { border-top:1px solid rgba(255,255,255,.08); padding:22px 0 35px; color:var(--muted); font-size:.82rem; }
+    .notice { color:#d8d3ff; font-size:.84rem; background:rgba(139,124,255,.09); border:1px solid rgba(139,124,255,.25); border-radius:10px; padding:11px 13px; margin-top:14px; }
+    @media (max-width:800px) { .layout { grid-template-columns:1fr; } .features { grid-template-columns:1fr; } .hero { padding-top:32px; } }
+    @media (max-width:480px) { .two { grid-template-columns:1fr; } .card { padding:17px; } .pill { display:none; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <div class="brand">✦ PromptForge <span>AI</span></div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="index.html">Generator</a>
+        <a href="guides/ai-video-prompt-guide.html">Guide</a>
+        <a href="about.html">About</a>
+      </nav>
+      <div class="pill">Free · No API key required</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Your video idea, upgraded</div>
+      <h1>Free AI Video Prompt Generator</h1>
+      <p>Turn a simple idea into a structured text-to-video prompt. Choose visual style, camera, sound, and duration, then copy or download your prompt for your favorite video generator.</p>
+    </section>
+
+    <section class="layout">
+      <div class="card">
+        <h2>⚙️ Prompt settings</h2>
+        <form id="promptForm">
+          <label for="idea">Video idea</label>
+          <textarea id="idea" required maxlength="500" placeholder="Example: A tiny turtle outsmarts a cheeky monkey at a fruit stand">A tiny turtle outsmarts a cheeky monkey at a fruit stand</textarea>
+          <div class="two">
+            <div>
+              <label for="style">Visual style</label>
+              <select id="style">
+                <option>Photorealistic mobile footage</option>
+                <option>Original cinematic 3D animation</option>
+                <option>Stylized 2D storybook animation</option>
+                <option>Surreal fantasy realism</option>
+                <option>Product commercial</option>
+                <option>Documentary realism</option>
+              </select>
+            </div>
+            <div>
+              <label for="duration">Duration</label>
+              <select id="duration">
+                <option value="15">15 seconds</option>
+                <option value="30" selected>30 seconds</option>
+                <option value="60">60 seconds</option>
+              </select>
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <label for="ratio">Aspect ratio</label>
+              <select id="ratio">
+                <option value="9:16" selected>9:16 vertical</option>
+                <option value="16:9">16:9 landscape</option>
+                <option value="1:1">1:1 square</option>
+              </select>
+            </div>
+            <div>
+              <label for="camera">Camera style</label>
+              <select id="camera">
+                <option>Natural handheld camera</option>
+                <option>Smooth cinematic tracking</option>
+                <option>Locked-off tripod shot</option>
+                <option>Dynamic close-ups and wide shots</option>
+                <option>First-person POV</option>
+              </select>
+            </div>
+          </div>
+          <div class="two">
+            <div>
+              <label for="audio">Audio direction</label>
+              <select id="audio">
+                <option>Natural ambience and realistic sound effects</option>
+                <option>Music and sound effects, no dialogue</option>
+                <option>Clear English dialogue with natural voices</option>
+                <option>Soft cinematic music and ambience</option>
+                <option>No music; ambience only</option>
+              </select>
+            </div>
+            <div>
+              <label for="ending">Ending</label>
+              <select id="ending">
+                <option>Clear visual punchline</option>
+                <option>Emotional reveal</option>
+                <option>Satisfying transformation</option>
+                <option>Unexpected twist</option>
+                <option>Useful takeaway</option>
+              </select>
+            </div>
+          </div>
+          <label for="details">Extra details (optional)</label>
+          <input id="details" maxlength="300" placeholder="Characters, setting, props, mood...">
+          <div class="checks">
+            <label><input id="continuity" type="checkbox" checked> Keep character continuity</label>
+            <label><input id="noText" type="checkbox" checked> No on-screen text or watermark</label>
+          </div>
+          <button class="primary" type="submit">✨ Generate video prompt</button>
+        </form>
+        <div class="notice">Starter version: prompts are generated locally in your browser. No paid AI service or API key is used.</div>
+      </div>
+
+      <div class="card">
+        <h2>🪄 Your generated prompt</h2>
+        <div id="output" class="output" aria-live="polite">Your prompt will appear here. Enter an idea and click “Generate video prompt”.</div>
+        <div class="actions">
+          <button class="secondary" id="copyBtn" type="button">Copy prompt</button>
+          <button class="secondary" id="downloadBtn" type="button">Download .txt</button>
+          <button class="secondary" id="sampleBtn" type="button">Try sample</button>
+        </div>
+        <p id="status" class="hint" aria-live="polite">Tip: include a clear subject, action, setting, and payoff in your idea.</p>
+        <div class="ad-slot">
+          <strong>Advertisement space</strong><br>
+          Ad code yahan sirf AdSense approval aur publisher ID milne ke baad add karein.
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature"><b>🎬 Structured prompts</b><span>Subject, action, camera, audio, realism, and negative constraints in one prompt.</span></div>
+      <div class="feature"><b>📱 Short-form ready</b><span>Vertical formats for Shorts, Reels, TikTok, and other video platforms.</span></div>
+      <div class="feature"><b>💎 Premium-ready roadmap</b><span>Later add saved prompts, prompt packs, user accounts, and real AI generation.</span></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div>© <span id="year"></span> PromptForge AI · Independent prompt-writing tool.</div>
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <a href="guides/ai-video-prompt-guide.html">Prompt Guide</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms</a>
+      </div>
+      <div class="footer-note">This starter processes prompt inputs in your browser. It does not currently send them to a server.</div>
+    </div>
+  </footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let latestPrompt = "";
+
+    function buildPrompt() {
+      const idea = $("idea").value.trim();
+      if (!idea) {
+        $("status").textContent = "Please enter a video idea first.";
+        $("idea").focus();
+        return "";
+      }
+      const style = $("style").value;
+      const duration = Number($("duration").value);
+      const ratio = $("ratio").value;
+      const camera = $("camera").value;
+      const audio = $("audio").value;
+      const ending = $("ending").value;
+      const details = $("details").value.trim();
+      const continuity = $("continuity").checked;
+      const noText = $("noText").checked;
+
+      const timeline = duration === 15
+        ? "0–3s: Establish the subject and setting immediately.\\n3–7s: Show the main action clearly.\\n7–12s: Escalate the action or reveal a consequence.\\n12–15s: Deliver the ending and hold the final visual briefly."
+        : duration === 30
+        ? "0–4s: Open with a visually clear hook.\\n4–10s: Establish the subject, setting, and goal.\\n10–18s: Develop the main action with readable visual beats.\\n18–25s: Escalate the action and show the consequence.\\n25–30s: Deliver the ending and a clean final visual."
+        : "0–5s: Strong visual hook.\\n5–15s: Establish the subject, setting, and goal.\\n15–30s: Develop the action in clear, escalating beats.\\n30–45s: Add a complication, discovery, or emotional turn.\\n45–55s: Resolve the central action.\\n55–60s: Deliver the ending and hold a readable final composition.";
+
+      const lines = [
+        "AI VIDEO GENERATION PROMPT",
+        "",
+        "[FORMAT]",
+        `Duration: exactly ${duration} seconds.`,
+        `Aspect ratio: ${ratio}.`,
+        `Visual style: ${style}.`,
+        "Create one coherent, original short-form video with a clear beginning, development, and payoff.",
+        "",
+        "[CORE IDEA]",
+        idea + (details ? "\\nAdditional details: " + details : ""),
+        "",
+        "[TIMELINE]",
+        timeline,
+        "",
+        "[CAMERA]",
+        camera + ". Keep framing intentional and every important action easy to understand. Use natural motion and consistent spatial geography.",
+        "",
+        "[AUDIO]",
+        audio + ". Match sound timing to visible actions. Avoid unrelated or exaggerated sound effects.",
+        "",
+        "[REALISM AND QUALITY]",
+        "Use coherent motion, believable physics for the chosen style, clean subject separation, stable exposure, consistent lighting, and detailed environments. Make the central action readable on a small phone screen.",
+        continuity ? "CONTINUITY LOCK: Keep character identity, face, body proportions, colors, clothing, props, and environment consistent throughout the full clip. Do not introduce unexplained changes." : "Maintain general visual coherence across the clip.",
+        "",
+        "[ENDING]",
+        ending + ". Make the final beat visually clear and satisfying; do not end in the middle of an action.",
+        "",
+        "[NEGATIVE PROMPT]",
+        "No unintended extra characters, duplicated limbs, warped anatomy, flickering, sudden identity changes, object teleportation, broken physics, unreadable framing, accidental jump cuts, or random scene changes.",
+        noText ? "No captions, subtitles, UI overlays, logos, watermarks, or generated text on screen." : "Only include on-screen text if it is explicitly necessary to the story and rendered correctly.",
+        "",
+        "[GENERATION NOTE]",
+        "Treat this as an original concept. Do not imitate copyrighted characters, recognizable franchise designs, or a specific creator's exact style. Prioritize clarity, continuity, and a strong visual payoff."
+      ];
+      return lines.join("\\n").replace(/\\\\n/g, "\\n");
+    }
+
+    $("promptForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      latestPrompt = buildPrompt();
+      if (latestPrompt) {
+        $("output").textContent = latestPrompt;
+        $("status").textContent = "Prompt ready. Copy it into your preferred AI video generator.";
+      }
+    });
+
+    $("copyBtn").addEventListener("click", async () => {
+      if (!latestPrompt) {
+        latestPrompt = buildPrompt();
+        if (latestPrompt) $("output").textContent = latestPrompt;
+      }
+      if (!latestPrompt) return;
+      try {
+        await navigator.clipboard.writeText(latestPrompt);
+        $("status").textContent = "Copied! Ab prompt apne video generator mein paste kar dein.";
+      } catch (error) {
+        $("status").textContent = "Auto-copy unavailable. Prompt select karke manually copy karein.";
+      }
+    });
+
+    $("downloadBtn").addEventListener("click", () => {
+      if (!latestPrompt) {
+        latestPrompt = buildPrompt();
+        if (latestPrompt) $("output").textContent = latestPrompt;
+      }
+      if (!latestPrompt) return;
+      const blob = new Blob([latestPrompt], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "promptforge-video-prompt.txt";
+      a.click();
+      URL.revokeObjectURL(url);
+      $("status").textContent = "Text file download requested.";
+    });
+
+    $("sampleBtn").addEventListener("click", () => {
+      $("idea").value = "A tiny turtle calmly outsmarts a cheeky monkey who tries to steal its fruit at a colorful outdoor market";
+      $("style").value = "Original cinematic 3D animation";
+      $("duration").value = "30";
+      $("ratio").value = "9:16";
+      $("camera").value = "Dynamic close-ups and wide shots";
+      $("audio").value = "Music and sound effects, no dialogue";
+      $("ending").value = "Clear visual punchline";
+      $("details").value = "Warm daylight, expressive original animal characters, fruit stall, playful family-friendly comedy";
+      latestPrompt = buildPrompt();
+      $("output").textContent = latestPrompt;
+      $("status").textContent = "Sample loaded. Edit any field and generate again.";
+    });
+
+    $("year").textContent = new Date().getFullYear();
+    $("promptForm").requestSubmit();
+  </script>
+</body>
+</html>
